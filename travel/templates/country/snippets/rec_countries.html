@@ -1,0 +1,16 @@
+<div id="post-container">
+    <div class="card mb-2 " style="width: 13rem;">
+        <div class="card-body">
+        <p class="lead">Recommended countries</p>
+            {% for country in top_countries %}
+                <a href="{% url "country:detail" country.slug %}">
+                    <h5 class="card-title">
+                        {{ country }}
+                    </h5>
+                </a>
+            {% empty %}
+                <h4>No one</h4>
+            {% endfor %}
+        </div>
+    </div>
+</div>

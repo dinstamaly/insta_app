@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }}Create{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6 ">
+            {% include "posts/forms.html" with form=form btn_value='Post' %}
+        </div>
+    </div>
+{% endblock %}

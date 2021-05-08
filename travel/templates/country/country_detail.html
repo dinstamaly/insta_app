@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }}Countries{% endblock %}
+{% block script %}
+{% endblock %}
+{% block content %}
+
+    <div class="row m-2">
+
+        <div class="col-sm-3 col-xs-12">
+            <h1>{{ object.title }}</h1>
+            <img src="{{ country_flag }}"
+                 class="col-sm-1 col-xs-12 card-img-top" alt="flag">
+            <p>Posts: {{ object.posts.all.count }}</p>
+            <table class="table-sm">
+                <tbody>
+                <tr>
+                    <th scope="row">Capital</th>
+                    <td>{{ country_cap }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Region</th>
+                    <td>{{ country_region }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Currency</th>
+                    <td>{{ currency_symbol }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Languages</th>
+                    {% for lang in country_lang %}
+                        <td>{{ lang }}</td>
+                    {% empty %}
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-9 col-xs-12">
+            {% for post_instance in object.posts.all %}
+                <div id="post-container">
+                    <div class="card mb-2 " style="width: 30rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post_instance.title }}</h5>
+                            <a href="{{ post_instance.get_absolute_url }}"
+                               class="btn btn-secondary">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No Post yet.</p>
+
+            {% endfor %}
+        </div>
+    </div>
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            {% if page_obj.number != None %}
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            {% else %}
+            {% endif %}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
+{% endblock %}

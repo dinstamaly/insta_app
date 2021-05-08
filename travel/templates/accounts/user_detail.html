@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }}{{ object.username }}{% endblock %}
+{% block content %}
+    <div class="row m-2">
+        <div class="col-sm-2 col-xs-12">
+            <a href='{% url "accounts:detail" object.username %}'>
+                <h1>{{ object.username }}</h1>
+            </a>
+            <hr>
+        {% if object == request.user %}
+        {% else %}
+            <p>
+                <a class="btn btn-primary"
+                   href="{{ object.profile.get_follow_url }}">
+                    {% if following %}Unfollow{% else %}Follow{% endif %}
+                </a>
+            </p>
+        {% endif %}
+            <p>Followers: {{ object.followed_by.all.count }}</p>
+        </div>
+        <div class="col-sm-5 col-xs-12">
+            <h3>My Posts</h3>
+            {% for post in object.post_set.all %}
+                <div id="post-container">
+                    <div class="card mb-2 " style="width: 25rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.timestamp|timesince }}
+                                ago</p>
+                            <a href="{{ post.get_absolute_url }}"
+                               class="btn btn-secondary">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                {% if request.GET.q %}
+                    <p>No Post found.</p>
+                {% else %}
+                    <p>No Posts yet.</p>
+                {% endif %}
+
+            {% endfor %}
+        </div>
+        <div class="col-sm-2 col-xs-12">
+            <h3>Following
+                <small>({{ object.profile.get_following.count }})</small></h3>
+
+            <div id="post-container">
+                <div class="card mb-2 " style="width: 10rem;">
+                    <div class="card-body">
+                        {% for user in object.profile.get_following %}
+                            <a href='{% url "accounts:detail" user.username %}'>
+                                <h5 class="card-title">{{ user.username }}</h5>
+                            </a>
+                        {% empty %}
+                            <h4>No one</h4>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-xs-12">
+            <h3>Follower</h3>
+
+            <div id="post-container">
+                <div class="card mb-2 " style="width: 10rem;">
+                    <div class="card-body">
+                        {% for profile in object.followed_by.all %}
+                            <a href='{% url "accounts:detail" profile.user.username %}'>
+                                <h5 class="card-title">
+                                    {{ profile.user.username }}
+                                </h5>
+                            </a>
+                        {% empty %}
+                            <h4>No one</h4>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

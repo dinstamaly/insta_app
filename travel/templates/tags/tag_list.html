@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }}Tags{% endblock %}
+{% block script %}
+{% endblock %}
+{% block content %}
+
+    <div class="row m-2">
+
+        <div class="col-sm-3 col-xs-12">
+            <a href='{% url "accounts:detail" request.user %}'>
+                <h1>{{ request.user }}</h1>
+            </a>
+        </div>
+        <div class="col-sm-9 col-xs-12">
+            {% for object in object_list %}
+                <div id="post-container">
+                    <div class="card mb-2 " style="width: 30rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ object.title }}</h5>
+                            <a href="{{ object.get_absolute_url }}"
+                               class="btn btn-secondary">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                {% if request.GET.q %}
+                    <p>No Tags found.</p>
+                {% else %}
+                    <p>No Tags yet.</p>
+                {% endif %}
+
+            {% endfor %}
+        </div>
+    </div>
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
+{% endblock %}

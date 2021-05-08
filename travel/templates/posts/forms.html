@@ -1,0 +1,9 @@
+{% load crispy_forms_tags %}
+
+<form id = '{% if form_id %}{{ form_id }}{% endif %}' class="form-group "
+      method="POST" action="{% if action_url %}{{ action_url }}{% endif %}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    {#    <textarea class="form-control" id="exampleFormControlTextarea1" ></textarea>#}
+    <input class="btn btn-primary m-2" type="submit" value="{{ btn_value }}">
+</form>

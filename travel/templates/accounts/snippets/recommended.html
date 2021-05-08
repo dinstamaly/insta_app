@@ -1,0 +1,16 @@
+<div id="post-container">
+    <div class="card mb-2 " style="width: 13rem;">
+        <div class="card-body">
+        <p class="lead">Recommended user</p>
+            {% for profile in recommended %}
+                <a href="{% url 'accounts:detail' profile.username %}">
+                    <h5 class="card-title">
+                        {{ profile.username }}
+                    </h5>
+                </a>
+            {% empty %}
+                <h4>No one</h4>
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<div id="post-container">
+    <div class="card mb-2 " style="width: 13rem;">
+        <div class="card-body">
+        <p class="lead">Recommended posts</p>
+            {% for post in posts %}
+                <a href="{% url "posts:detail" post.id %}">
+                    <h5 class="card-title">
+                        {{ post.title }}
+                    </h5>
+                </a>
+            {% empty %}
+                <h4>No one</h4>
+            {% endfor %}
+        </div>
+    </div>
+</div>
